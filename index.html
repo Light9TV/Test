@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Combo Routes Notebook</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <section class="hero" aria-labelledby="site-title">
+        <h1 id="site-title">Combo Routes Notebook</h1>
+        <p>Fast notes for fighting game routes with direction arrows instead of numpad notation. Build readable combo cards for Smash Ultimate, Melee, Street Fighter, Tekken, 2XKO, and anything else you lab at 2 AM.</p>
+        <div class="badge-row" aria-label="Core features">
+          <span class="badge">Arrow notation</span>
+          <span class="badge">Local autosave</span>
+          <span class="badge">Game presets</span>
+          <span class="badge">Export / import JSON</span>
+          <span class="badge">Print-friendly</span>
+        </div>
+      </section>
+      <aside class="stats-panel" aria-label="Notebook stats">
+        <div class="stats-grid">
+          <div class="stat"><span>Total routes</span><strong id="statTotal">0</strong></div>
+          <div class="stat"><span>Games</span><strong id="statGames">0</strong></div>
+          <div class="stat"><span>Characters</span><strong id="statCharacters">0</strong></div>
+        </div>
+      </aside>
+    </header>
+
+    <main>
+      <section class="panel" aria-labelledby="builder-title">
+        <div class="panel-header">
+          <div>
+            <h2 id="builder-title">Route Builder</h2>
+            <p>Click arrows/buttons, then save the route as a card.</p>
+          </div>
+          <button class="plain-btn warn" id="newBtn" type="button">New</button>
+        </div>
+        <div class="panel-body">
+          <form id="comboForm">
+            <input type="hidden" id="comboId" />
+            <div class="form-grid">
+              <label>
+                Game
+                <select id="game" required></select>
+              </label>
+              <label>
+                Character
+                <input id="character" placeholder="Terry, Ken, Jin, Fox..." autocomplete="off" required />
+              </label>
+              <label class="full">
+                Route name / situation
+                <input id="routeName" placeholder="Corner punish, low percent BnB, wall carry..." autocomplete="off" required />
+              </label>
+              <label>
+                Starter
+                <input id="starter" placeholder="cr.MP, grab, CH ↘+2..." autocomplete="off" />
+              </label>
+              <label>
+                Damage / reward
+                <input id="damage" placeholder="42%, 3180, wall splat..." autocomplete="off" />
+              </label>
+              <label>
+                Meter / resource
+                <input id="meter" placeholder="No meter, 2 bars, Heat, Drive..." autocomplete="off" />
+              </label>
+              <label>
+                Position
+                <input id="position" placeholder="Midscreen, corner, ledge, wall..." autocomplete="off" />
+              </label>
+              <label>
+                Difficulty
+                <select id="difficulty">
+                  <option>Easy</option>
+                  <option selected>Medium</option>
+                  <option>Hard</option>
+                  <option>Cooked lab monster</option>
+                </select>
+              </label>
+              <label>
+                Tags
+                <input id="tags" placeholder="punish, anti-air, kill confirm" autocomplete="off" />
+              </label>
+            </div>
+
+            <div class="composer" aria-label="Combo notation composer">
+              <div class="palette-title">
+                <span>Route preview</span>
+                <span id="routeCount">0 tokens</span>
+              </div>
+              <div class="route-preview" id="routePreview" aria-live="polite"></div>
+
+              <div class="manual-row">
+                <input id="manualToken" placeholder="Add custom token: Power Dunk, Heat Smash, A1, etc." autocomplete="off" />
+                <button class="plain-btn" id="addManualBtn" type="button">Add</button>
+              </div>
+
+              <div class="mini-tools">
+                <button class="plain-btn" id="undoBtn" type="button">Undo</button>
+                <button class="plain-btn" id="spaceBtn" type="button">Step ›</button>
+                <button class="plain-btn" id="plusBtn" type="button">+</button>
+                <button class="plain-btn" id="cancelBtn" type="button">Cancel xx</button>
+                <button class="plain-btn" id="clearRouteBtn" type="button">Clear route</button>
+              </div>
+
+              <div id="palette"></div>
+              <p class="kbd-help">Keyboard shortcuts while not typing: <kbd>Arrow keys</kbd> add arrows, <kbd>Enter</kbd> saves, <kbd>Backspace</kbd> undoes, <kbd>+</kbd> adds plus, <kbd>.</kbd> adds step.</p>
+            </div>
+
+            <label class="full" style="margin-top: 14px;">
+              Notes
+              <textarea id="notes" placeholder="Timing, DI notes, confirms, matchup-specific stuff, what to drill next..."></textarea>
+            </label>
+
+            <div class="actions">
+              <button class="plain-btn primary" type="submit" id="saveBtn">Save route</button>
+              <button class="plain-btn" type="button" id="copyBtn">Copy readable notation</button>
+              <button class="plain-btn danger" type="button" id="deleteEditingBtn" hidden>Delete editing route</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="library-title">
+        <div class="panel-header">
+          <div>
+            <h2 id="library-title">Route Library</h2>
+            <p>Search, filter, print, or export your saved combo notes.</p>
+          </div>
+          <div class="actions" style="margin: 0;">
+            <button class="plain-btn" id="exportBtn" type="button">Export</button>
+            <button class="plain-btn" id="importBtn" type="button">Import</button>
+            <button class="plain-btn" id="printBtn" type="button">Print</button>
+            <input class="hidden-file" id="importFile" type="file" accept="application/json,.json" />
+          </div>
+        </div>
+        <div class="library-tools">
+          <label>
+            Search
+            <input id="search" placeholder="character, tag, note, route..." autocomplete="off" />
+          </label>
+          <label>
+            Game filter
+            <select id="gameFilter"></select>
+          </label>
+          <label>
+            Sort
+            <select id="sortMode">
+              <option value="updated">Recently updated</option>
+              <option value="created">Recently created</option>
+              <option value="game">Game</option>
+              <option value="character">Character</option>
+              <option value="difficulty">Difficulty</option>
+            </select>
+          </label>
+          <label>
+            Favorite
+            <select id="favFilter">
+              <option value="all">All</option>
+              <option value="fav">Favorites</option>
+            </select>
+          </label>
+        </div>
+        <div class="route-list" id="routeList"></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
