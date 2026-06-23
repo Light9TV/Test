@@ -29,6 +29,36 @@
       </aside>
     </header>
 
+
+    <section class="panel cloud-panel" aria-labelledby="cloud-title">
+      <div class="panel-header">
+        <div>
+          <h2 id="cloud-title">Cloud Sync</h2>
+          <p>Log in to save routes across devices. Local save still works as a backup.</p>
+        </div>
+        <span class="cloud-status" id="cloudStatus">Cloud not configured yet</span>
+      </div>
+      <div class="panel-body">
+        <div class="cloud-grid">
+          <label>
+            Email
+            <input id="cloudEmail" type="email" placeholder="you@example.com" autocomplete="email" />
+          </label>
+          <label>
+            Password
+            <input id="cloudPassword" type="password" placeholder="Password" autocomplete="current-password" />
+          </label>
+        </div>
+        <div class="actions cloud-actions">
+          <button class="plain-btn" id="cloudSignUpBtn" type="button">Sign up</button>
+          <button class="plain-btn primary" id="cloudLoginBtn" type="button">Log in</button>
+          <button class="plain-btn" id="cloudLogoutBtn" type="button">Log out</button>
+          <button class="plain-btn good" id="cloudLoadBtn" type="button">Load cloud routes</button>
+          <button class="plain-btn warn" id="cloudPushBtn" type="button">Push local routes to cloud</button>
+        </div>
+      </div>
+    </section>
+
     <main>
       <section class="panel" aria-labelledby="builder-title">
         <div class="panel-header">
@@ -82,6 +112,10 @@
               <label>
                 Tags
                 <input id="tags" placeholder="punish, anti-air, kill confirm" autocomplete="off" />
+              </label>
+              <label class="checkbox-label full">
+                <input id="isPublic" type="checkbox" />
+                <span>Make this route public later</span>
               </label>
             </div>
 
@@ -170,6 +204,7 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="script.js"></script>
 </body>
 </html>
