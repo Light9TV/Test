@@ -449,6 +449,56 @@
 
     .hidden-file { display: none; }
 
+
+    .cloud-panel { margin-bottom: 20px; }
+
+    .cloud-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .cloud-actions { margin-top: 14px; }
+
+    .cloud-status {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: .82rem;
+      white-space: nowrap;
+    }
+
+    .cloud-status.ready {
+      color: #d7ffe0;
+      border-color: rgba(126,231,135,.28);
+      background: rgba(126,231,135,.08);
+    }
+
+    .cloud-status.warn {
+      color: #fff3c8;
+      border-color: rgba(255,209,102,.28);
+      background: rgba(255,209,102,.08);
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+
+    .checkbox-label input {
+      width: auto;
+      min-width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+    }
+
     @media (max-width: 1080px) {
       header, main { grid-template-columns: 1fr; }
       .library-tools { grid-template-columns: 1fr 1fr; }
@@ -456,7 +506,7 @@
 
     @media (max-width: 620px) {
       .shell { width: min(100% - 20px, 1480px); padding-top: 12px; }
-      .form-grid, .library-tools, .manual-row, .stats-grid { grid-template-columns: 1fr; }
+      .form-grid, .library-tools, .manual-row, .stats-grid, .cloud-grid { grid-template-columns: 1fr; }
       .route-list { grid-template-columns: 1fr; padding: 12px; }
       .panel-body { padding: 14px; }
       .hero h1 { font-size: 2.3rem; }
