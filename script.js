@@ -539,6 +539,14 @@ async function maybeSaveRouteToCloud(route) {
     showToast(`Cloud save failed: ${error.message}`);
   }
 }
+function passwordMeetsRequirements(password) {
+  const hasMinimumLength = password.length >= 8;
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasLowercase = /[a-z]/.test(password);
+  const hasNumber = /\d/.test(password);
+
+  return hasMinimumLength && hasUppercase && hasLowercase && hasNumber;
+}
 
 async function cloudSignUp() {
   if (!supabaseClient) {
@@ -551,6 +559,10 @@ async function cloudSignUp() {
 
   if (!email || !password) {
     showToast("Enter an email and password first.");
+    return;
+  }
+  if (!passwordMeetsRequirements(password)) {
+    showToast("Password must be at least 8 characters and include uppercase, lowercase, and a number.");
     return;
   }
 
