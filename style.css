@@ -164,6 +164,13 @@
     textarea { min-height: 104px; resize: vertical; }
     input:focus, textarea:focus, select:focus { border-color: rgba(143, 211, 255, .8); box-shadow: var(--focus); }
 
+    .field-help {
+      color: var(--muted);
+      font-size: .78rem;
+      line-height: 1.35;
+      font-weight: 500;
+    }
+
     .composer {
       margin-top: 14px;
       padding: 14px;
